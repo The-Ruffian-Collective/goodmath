@@ -641,75 +641,102 @@ const GoodMath = () => {
             ← Back
           </button>
 
-          <div className="bg-white rounded-2xl p-8 shadow-xl">
+          <div className="bg-white rounded-2xl p-4 sm:p-8 shadow-xl">
             <div className="flex items-center gap-3 mb-6">
-              <Printer className="text-green-500" size={36} />
-              <h2 className="text-3xl font-bold text-gray-800">Create Your Own Test!</h2>
+              <Printer className="text-green-500 flex-shrink-0" size={32} />
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Create Your Own Test!</h2>
             </div>
 
-            <div className="mb-8">
-              <label className="block text-lg font-bold text-gray-700 mb-3">
+            <div className="mb-6 sm:mb-8">
+              <label className="block text-lg font-bold text-gray-700 mb-2 sm:mb-3">
                 📝 Name Your Test:
               </label>
               <input
                 type="text"
                 value={testName}
                 onChange={(e) => setTestName(e.target.value)}
-                placeholder="e.g., 'Eilidh's Super Challenge' or 'Friday Math Quiz'"
-                className="w-full text-xl p-4 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:outline-none"
+                placeholder="e.g., 'My Math Quiz'"
+                className="w-full text-lg sm:text-xl p-3 sm:p-4 border-2 border-purple-300 rounded-xl focus:border-purple-500 focus:outline-none"
               />
             </div>
 
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 mb-8">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 sm:p-6 mb-8">
               <h3 className="text-xl font-bold text-gray-800 mb-4">✨ Create a Problem:</h3>
-              
-              <div className="grid grid-cols-5 gap-3 items-center mb-4">
-                <input
-                  type="number"
-                  value={num1Input}
-                  onChange={(e) => setNum1Input(e.target.value)}
-                  placeholder="First number"
-                  className="col-span-2 text-2xl text-center p-4 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:outline-none"
-                />
-                
-                <select
-                  value={selectedOp}
-                  onChange={(e) => setSelectedOp(e.target.value)}
-                  className="text-3xl text-center p-4 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:outline-none bg-white font-bold"
-                >
-                  <option value="+">+</option>
-                  <option value="-">-</option>
-                  <option value="×">×</option>
-                  <option value="÷">÷</option>
-                </select>
 
-                <input
-                  type="number"
-                  value={num2Input}
-                  onChange={(e) => setNum2Input(e.target.value)}
-                  placeholder="Second number"
-                  className="col-span-2 text-2xl text-center p-4 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:outline-none"
-                />
+              {/* Mobile: Stack vertically, Tablet+: Horizontal layout */}
+              <div className="flex flex-col gap-3 mb-4">
+                {/* First number input */}
+                <div className="w-full">
+                  <label className="block text-sm font-semibold text-gray-600 mb-1 sm:hidden">First Number</label>
+                  <input
+                    type="number"
+                    value={num1Input}
+                    onChange={(e) => setNum1Input(e.target.value)}
+                    placeholder="First number"
+                    className="w-full text-2xl text-center p-4 border-2 border-purple-300 rounded-xl focus:border-purple-500 focus:outline-none"
+                  />
+                </div>
+
+                {/* Operation selector - horizontal button group on mobile */}
+                <div className="w-full">
+                  <label className="block text-sm font-semibold text-gray-600 mb-1 sm:hidden">Operation</label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {['+', '-', '×', '÷'].map((op) => (
+                      <button
+                        key={op}
+                        onClick={() => setSelectedOp(op)}
+                        className={`p-4 text-2xl sm:text-3xl font-bold rounded-xl transition-all ${
+                          selectedOp === op
+                            ? 'bg-purple-500 text-white shadow-lg scale-105'
+                            : 'bg-white border-2 border-purple-300 text-gray-700 hover:bg-purple-50'
+                        }`}
+                      >
+                        {op}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Second number input */}
+                <div className="w-full">
+                  <label className="block text-sm font-semibold text-gray-600 mb-1 sm:hidden">Second Number</label>
+                  <input
+                    type="number"
+                    value={num2Input}
+                    onChange={(e) => setNum2Input(e.target.value)}
+                    placeholder="Second number"
+                    className="w-full text-2xl text-center p-4 border-2 border-purple-300 rounded-xl focus:border-purple-500 focus:outline-none"
+                  />
+                </div>
               </div>
+
+              {/* Preview of the problem */}
+              {num1Input && num2Input && (
+                <div className="text-center py-3 mb-4 bg-white rounded-xl">
+                  <span className="text-2xl sm:text-3xl font-bold text-gray-800">
+                    {num1Input} {selectedOp} {num2Input} = ?
+                  </span>
+                </div>
+              )}
 
               <button
                 onClick={addManualProblem}
                 disabled={!num1Input || !num2Input}
-                className="w-full py-4 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-lg font-bold text-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-xl font-bold text-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 ➕ Add This Problem to Test
               </button>
             </div>
 
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-gray-700">
+            <div className="mb-6 sm:mb-8">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-700">
                   📋 Problems in Your Test: {testProblems.length}
                 </h3>
                 {testProblems.length > 0 && (
                   <button
                     onClick={() => setTestProblems([])}
-                    className="px-4 py-2 bg-red-100 text-red-600 rounded-lg font-semibold hover:bg-red-200"
+                    className="px-4 py-2 bg-red-100 text-red-600 rounded-lg font-semibold hover:bg-red-200 self-start sm:self-auto"
                   >
                     Clear All
                   </button>
@@ -717,21 +744,21 @@ const GoodMath = () => {
               </div>
 
               {testProblems.length === 0 ? (
-                <div className="text-center py-12 bg-gray-50 rounded-xl">
-                  <p className="text-gray-500 text-lg">No problems yet! Create some problems above.</p>
+                <div className="text-center py-8 sm:py-12 bg-gray-50 rounded-xl">
+                  <p className="text-gray-500 text-base sm:text-lg px-4">No problems yet! Create some problems above.</p>
                 </div>
               ) : (
-                <div className="max-h-80 overflow-y-auto space-y-2 bg-gray-50 rounded-xl p-4">
+                <div className="max-h-64 sm:max-h-80 overflow-y-auto space-y-2 bg-gray-50 rounded-xl p-3 sm:p-4">
                   {testProblems.map((p, idx) => (
-                    <div key={p.id} className="flex justify-between items-center p-4 bg-white rounded-lg shadow-sm">
-                      <span className="text-lg font-semibold text-gray-800">
+                    <div key={p.id} className="flex justify-between items-center p-3 sm:p-4 bg-white rounded-lg shadow-sm gap-2">
+                      <span className="text-base sm:text-lg font-semibold text-gray-800">
                         {idx + 1}. {p.num1} {getOperationSymbol(p.operation)} {p.num2} = ?
                       </span>
                       <button
                         onClick={() => setTestProblems(testProblems.filter(prob => prob.id !== p.id))}
-                        className="px-4 py-2 text-red-500 hover:bg-red-50 rounded-lg font-bold transition-all"
+                        className="px-3 py-2 text-red-500 hover:bg-red-50 rounded-lg font-bold transition-all flex-shrink-0"
                       >
-                        ✕ Remove
+                        ✕
                       </button>
                     </div>
                   ))}
@@ -742,10 +769,10 @@ const GoodMath = () => {
             {testProblems.length > 0 && (
               <button
                 onClick={printTest}
-                className="w-full py-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold text-2xl hover:shadow-xl transition-all flex items-center justify-center gap-3"
+                className="w-full py-5 sm:py-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold text-xl sm:text-2xl hover:shadow-xl transition-all flex items-center justify-center gap-2 sm:gap-3"
               >
-                <Printer size={28} />
-                🖨️ Print My Test!
+                <Printer size={24} className="sm:w-7 sm:h-7" />
+                Print My Test!
               </button>
             )}
           </div>
